@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ ! -f package.json ]]; then
+  exit 100
+fi
