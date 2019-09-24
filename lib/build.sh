@@ -13,6 +13,16 @@ use_npm_ci() {
   [[ "$major" > "5" || ("$major" == "5" || "$minor" > "6") ]]
 }
 
+run_prebuild() {
+  local build_dir=$1
+
+  local heroku_prebuild_script=$(json_get_key "$build_dir/package.json" ".scripts.heroku-prebuild")
+
+  if heroku_prebuild_script ; then
+    npm run heroku-prebuild
+  fi
+}
+
 install_or_reuse_node_modules() {
   local build_dir=$1
 
