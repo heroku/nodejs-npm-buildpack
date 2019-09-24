@@ -9,3 +9,4 @@ source "$bp_dir/lib/build.sh"
 rm -rf node_modules
 
 install_or_reuse_node_modules $build_dir
+run_build $build_dir

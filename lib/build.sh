@@ -28,3 +28,16 @@ install_or_reuse_node_modules() {
     npm install --no-package-lock
   fi
 }
+
+run_build() {
+  local build_dir=$1
+
+  local build_script=$(json_get_key "$build_dir/package.json" ".scripts.build")
+  local heroku_postbuild_script=$(json_get_key "$build_dir/package.json" ".scripts.heroku-postbuild")
+
+  if heroku_postbuild_script ; then
+    npm run heroku-postbuild
+  else if build_script ; then
+    npm run build
+  fi
+}
