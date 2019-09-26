@@ -1,0 +1,9 @@
+api = "0.2"
+
+[buildpack]
+id = "heroku/nodejs-npm-buildpack"
+version = "0.0.1"
+name = "NPM Buildpack"
+
+[[stacks]]
+id = "heroku-18"
