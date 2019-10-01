@@ -33,7 +33,7 @@ install_or_reuse_node_modules() {
   local build_dir=$1
 
   if detect_package_lock $build_dir ; then
-    echo "---> Restoring node modules from ./package-lock.json"
+    echo "---> Installing node modules from ./package-lock.json"
     if use_npm_ci ; then
       npm ci
     else
