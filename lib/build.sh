@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+set -e
+
+bp_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd ..; pwd)
+
+source "$bp_dir/lib/utils/json.sh"
+
 detect_package_lock() {
   local build_dir=$1
   [[ -f "$build_dir/package-lock.json" ]]
@@ -47,7 +53,7 @@ run_build() {
 
   if heroku_postbuild_script ; then
     npm run heroku-postbuild
-  else if build_script ; then
+  elif build_script ; then
     npm run build
   fi
 }
