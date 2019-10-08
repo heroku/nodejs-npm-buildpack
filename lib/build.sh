@@ -29,8 +29,9 @@ run_prebuild() {
   fi
 }
 
-install_or_reuse_node_modules() {
+install_modules() {
   local build_dir=$1
+  local layer_dir=$2
 
   if detect_package_lock $build_dir ; then
     echo "---> Installing node modules from ./package-lock.json"
@@ -42,6 +43,28 @@ install_or_reuse_node_modules() {
   else
     echo "---> Installing node modules"
     npm install --no-package-lock
+  fi
+}
+
+install_or_reuse_node_modules() {
+  local build_dir=$1
+  local layer_dir=$2
+  local local_lock_checksum=$(sha256sum "$build_dir/package-lock.json" | cut -d " " -f 1)
+  local cached_lock_checksum=$(cat "$layer_dir.toml" | yj -t | jq -r ".metadata.package_lock_checksum")
+
+  mkdir -p ${layer_dir}
+
+  if [[ -f "$build_dir/package-lock.json" && $local_lock_checksum == $cached_lock_checksum ]] ; then
+    echo "---> Reusing node modules"
+    cp -r "$layer_dir" "$build_dir/node_modules"
+  else
+    echo "cache = true" > ${layer_dir}.toml
+    echo "build = false" >> ${layer_dir}.toml
+    echo "launch = true" >> ${layer_dir}.toml
+    echo -e "[metadata]\npackage_lock_checksum = \"$local_lock_checksum\"" >> ${layer_dir}.toml
+
+    install_modules "$build_dir" "$layer_dir"
+    cp -r "$build_dir/node_modules" "$layers_dir"
   fi
 }
 
