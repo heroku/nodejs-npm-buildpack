@@ -50,13 +50,14 @@ install_or_reuse_node_modules() {
   local build_dir=$1
   local layer_dir=$2
   local local_lock_checksum=$(sha256sum "$build_dir/package-lock.json" | cut -d " " -f 1)
-  local cached_lock_checksum=$(cat "$layer_dir.toml" | yj -t | jq -r ".metadata.package_lock_checksum")
 
   mkdir -p ${layer_dir}
 
-  if [[ -f "$build_dir/package-lock.json" && $local_lock_checksum == $cached_lock_checksum ]] ; then
-    echo "---> Reusing node modules"
-    cp -r "$layer_dir" "$build_dir/node_modules"
+  if [[ -f "$build_dir/package-lock.json"
+    && -f "$layer_dir.toml"
+    && $local_lock_checksum == $(cat "$layer_dir.toml" | yj -t | jq -r ".metadata.package_lock_checksum") ]] ; then
+      echo "---> Reusing node modules"
+      cp -r "$layer_dir" "$build_dir/node_modules"
   else
     echo "cache = true" > ${layer_dir}.toml
     echo "build = false" >> ${layer_dir}.toml
@@ -64,7 +65,10 @@ install_or_reuse_node_modules() {
     echo -e "[metadata]\npackage_lock_checksum = \"$local_lock_checksum\"" >> ${layer_dir}.toml
 
     install_modules "$build_dir" "$layer_dir"
-    cp -r "$build_dir/node_modules" "$layers_dir"
+
+    if [[ -d "$build_dir/node_modules" && -z "$(ls -A "$build_dir/node_modules")" ]] ; then
+      cp -r "$build_dir/node_modules" "$layers_dir"
+    fi
   fi
 }
 
