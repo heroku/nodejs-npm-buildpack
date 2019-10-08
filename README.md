@@ -31,7 +31,8 @@ git clone git@github.com:heroku/nodejs-npm-buildpack.git
 Clone the Heroku Node.js Engine Cloud Native Buildpack.
 
 ```sh
-git clone git@github.com:heroku/nodejs-engine-buildpack.git cd ..
+cd .. # change from nodejs-npm-buildpack directory
+git clone git@github.com:heroku/nodejs-engine-buildpack.git
 ```
 
 ### Build the image
