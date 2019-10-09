@@ -2,10 +2,11 @@
 set -eu
 set -o pipefail
 
-bp_dir=$(cd $(dirname $0)/..; pwd)
+bp_dir=$(cd "$(dirname "$0")"/..; pwd)
 build_dir=$(pwd)
 layers_dir=$1
 
+# shellcheck source=/dev/null
 source "$bp_dir/lib/build.sh"
 rm -rf "$build_dir/node_modules"
 
