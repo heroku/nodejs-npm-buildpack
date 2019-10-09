@@ -14,7 +14,7 @@ test:
 clean:
 	-rm -f nodejs-npm-buildpack-$(VERSION).tgz
 
-package: clean build
+package: clean
 	@tar cvzf nodejs-npm-buildpack-$(VERSION).tgz bin/ lib/** buildpack.toml README.md
 
 release:
