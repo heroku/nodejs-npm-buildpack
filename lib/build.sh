@@ -2,6 +2,7 @@
 
 set -e
 
+# shellcheck disable=SC2128
 bp_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd ..; pwd)
 
 # shellcheck source=/dev/null
@@ -69,9 +70,12 @@ install_or_reuse_node_modules() {
       cp -r "$layer_dir" "$build_dir/node_modules"
   else
     echo "cache = true" > "${layer_dir}.toml"
-    echo "build = false" >> "${layer_dir}.toml"
-    echo "launch = false" >> "${layer_dir}.toml"
-    echo -e "[metadata]\npackage_lock_checksum = \"$local_lock_checksum\"" >> "${layer_dir}.toml"
+
+    {
+      echo "build = false"
+      echo "launch = false"
+      echo -e "[metadata]\npackage_lock_checksum = \"$local_lock_checksum\""
+    } >> "${layer_dir}.toml"
 
     install_modules "$build_dir" "$layer_dir"
 
