@@ -66,13 +66,12 @@ install_or_reuse_node_modules() {
   fi
 
   touch "$layer_dir.toml"
-
-  local_lock_checksum=$(sha256sum "$build_dir/package-lock.json" | cut -d " " -f 1)
-  cached_lock_checksum=$(yj -t < "$layer_dir.toml" | jq -r ".metadata.package_lock_checksum")
-
   mkdir -p "${layer_dir}"
 
-  if [[ -f "$layer_dir.toml" && "$local_lock_checksum" == "$cached_lock_checksum" ]] ; then
+  local_lock_checksum=$(sha256sum "$build_dir/package-lock.json" | cut -d " " -f 1)
+  cached_lock_checksum=$(yj -t < "${layer_dir}.toml" | jq -r ".metadata.package_lock_checksum")
+
+  if [[ "$local_lock_checksum" == "$cached_lock_checksum" ]] ; then
       echo "---> Reusing node modules"
       cp -r "$layer_dir" "$build_dir/node_modules"
   else
