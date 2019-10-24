@@ -105,3 +105,13 @@ run_build() {
     npm run build
   fi
 }
+
+write_launch_toml() {
+  local launch_toml=$1
+
+  cat <<TOML > "$launch_toml"
+[[processes]]
+type = "web"
+command = "npm start"
+TOML
+}
