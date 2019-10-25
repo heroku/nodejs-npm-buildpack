@@ -85,8 +85,8 @@ install_or_reuse_node_modules() {
 
     install_modules "$build_dir" "$layer_dir"
 
-    if [[ -d "$build_dir/node_modules" && -z "$(ls -A "$build_dir/node_modules")" ]] ; then
-      cp -r "$build_dir/node_modules" "$layer_dir"
+    if [[ -d "$build_dir/node_modules" && -n "$(ls -A "$build_dir/node_modules")" ]] ; then
+      cp -r "$build_dir/node_modules/." "$layer_dir"
     fi
   fi
 }
