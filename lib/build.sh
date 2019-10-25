@@ -107,11 +107,15 @@ run_build() {
 }
 
 write_launch_toml() {
-  local launch_toml=$1
+  local package_json=$1
+  local launch_toml=$2
 
-  cat <<TOML > "$launch_toml"
+  if [ "null" != "$(jq -r .scripts.start < "$package_json")" ]; then
+    cat <<TOML > "$launch_toml"
 [[processes]]
 type = "web"
 command = "npm start"
 TOML
+  fi
+
 }
