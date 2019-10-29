@@ -105,3 +105,17 @@ run_build() {
     npm run build
   fi
 }
+
+write_launch_toml() {
+  local package_json=$1
+  local launch_toml=$2
+
+  if [ "null" != "$(jq -r .scripts.start < "$package_json")" ]; then
+    cat <<TOML > "$launch_toml"
+[[processes]]
+type = "web"
+command = "npm start"
+TOML
+  fi
+
+}
