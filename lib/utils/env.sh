@@ -15,3 +15,13 @@ export_env() {
     done
   fi
 }
+
+# Usage: $ _env-blacklist pattern
+# Outputs a regex of default blacklist env vars.
+_env_blacklist() {
+  local regex=${1:-''}
+  if [ -n "$regex" ]; then
+    regex="|$regex"
+  fi
+  echo "^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH$regex)$"
+}
