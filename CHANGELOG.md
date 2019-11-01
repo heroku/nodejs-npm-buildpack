@@ -2,7 +2,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.1.1
+## 0.1.2 (2019-11-01)
+###
+- feat: support build time environment variables ([#14](https://github.com/heroku/nodejs-npm-buildpack/pull/14))
+
+## 0.1.1 (2019-10-30)
 ### Fixed
 - Fix copying node_modules when a `package-lock.json` is present ([#12](https://github.com/heroku/nodejs-npm-buildpack/pull/12))
 
