@@ -6,6 +6,8 @@ set -e
 bp_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd ..; pwd)
 
 # shellcheck source=/dev/null
+source "$bp_dir/lib/utils/env.sh"
+# shellcheck source=/dev/null
 source "$bp_dir/lib/utils/json.sh"
 
 detect_package_lock() {
