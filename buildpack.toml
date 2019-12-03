@@ -1,7 +1,7 @@
 api = "0.2"
 
 [buildpack]
-id = "heroku/nodejs-npm-buildpack"
+id = "heroku/nodejs-npm"
 version = "0.1.2"
 name = "NPM Buildpack"
 
