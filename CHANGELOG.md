@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## master
 - docs: add docs around `Permission denied` issues ([#28](https://github.com/heroku/nodejs-npm-buildpack/pull/28))
 - Add dockerized unit tests ([#29](https://github.com/heroku/nodejs-npm-buildpack/pull/29))
+- Added `provides` and `requires` of `node_modules` and `node` to buildplan. ([#18](https://github.com/heroku/nodejs-npm-buildpack/pull/18))
 
 ## 0.1.4 (2020-02-19)
 ### Added
