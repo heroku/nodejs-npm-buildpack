@@ -25,7 +25,7 @@ use_npm_ci() {
   major=$(echo "$npm_version" | cut -f1 -d ".")
   minor=$(echo "$npm_version" | cut -f2 -d ".")
 
-  [[ "$major" -gt "5" || ("$major" == "5" || "$minor" -gt "6") ]]
+  [[ "$major" -gt "5" || ("$major" == "5" && "$minor" -gt "6") ]]
 }
 
 run_prebuild() {
