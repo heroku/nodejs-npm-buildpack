@@ -28,6 +28,39 @@ use_npm_ci() {
   [[ "$major" -gt "5" || ("$major" == "5" && "$minor" -gt "6") ]]
 }
 
+install_or_reuse_npm() {
+  local build_dir=$1
+  local layer_dir=$2
+  local npm_version
+  local engine_npm
+  local latest_npm_version
+
+  npm_version=$(npm -v)
+  engine_npm=$(json_get_key "$build_dir/package.json" ".engines.npm")
+
+  if [[ "$npm_version" == "$engine_npm" ]]; then
+    echo "---> Using npm v${npm_version}"
+  else
+    latest_npm_version=$(npm view npm@"$engine_npm" version | tail -n 1 | cut -d "'" -f2)
+
+    if [[ "$npm_version" == "$latest_npm_version" ]]; then
+      echo "---> Using npm v${npm_version}"
+    else
+      echo "---> Installing npm v${engine_npm}"
+      npm install -g "npm@${engine_npm}" --prefix "$layer_dir" --quiet
+
+      cat << TOML > "${layer_dir}.toml"
+cache = true
+build = true
+launch = true
+
+[metadata]
+version = "$latest_npm_version"
+TOML
+    fi
+  fi
+}
+
 run_prebuild() {
   local build_dir=$1
   local heroku_prebuild_script
