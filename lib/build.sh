@@ -40,15 +40,24 @@ install_or_reuse_npm() {
   npm_version=$(npm -v)
   engine_npm=$(json_get_key "$build_dir/package.json" ".engines.npm")
 
-  if [[ "$npm_version" == "$engine_npm" ]]; then
-    log_info "Using npm v${npm_version}"
+  # if no engine version specified
+  if [[ -z "$engine_npm" ]]; then
+    log_info "Using npm v${npm_version} from Node"
+    return 0
+  fi
+
+  # if engine version equals the installed version
+  # from either Node or the cache
+  if [[ "$engine_npm" == "$npm_version" ]]; then
+    log_info "Using npm v${npm_version} from package.json"
   else
     latest_npm_version=$(npm view npm@"$engine_npm" version | tail -n 1 | cut -d "'" -f2)
 
+    # if installed version is the latest version
     if [[ "$npm_version" == "$latest_npm_version" ]]; then
-      log_info "Using npm v${npm_version}"
+      log_info "Using npm v${npm_version} from package.json"
     else
-      log_info "Installing npm v${engine_npm}"
+      log_info "Installing npm v${engine_npm} from package.json"
       npm install -g "npm@${engine_npm}" --prefix "$layer_dir" --quiet
 
       cat << TOML > "${layer_dir}.toml"
