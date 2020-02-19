@@ -4,6 +4,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## master
 - feat: install `npm` version specified in `package.json` ([#24](https://github.com/heroku/nodejs-npm-buildpack/pull/24))
+- feat: exchange echo commands for `log_info` method ([#25](https://github.com/heroku/nodejs-npm-buildpack/pull/25))
 
 ## 0.1.4 (2020-02-14)
 ### Fixed
