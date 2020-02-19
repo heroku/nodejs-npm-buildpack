@@ -53,9 +53,6 @@ install_or_reuse_npm() {
 cache = true
 build = true
 launch = true
-
-[metadata]
-version = "$latest_npm_version"
 TOML
     fi
   fi
