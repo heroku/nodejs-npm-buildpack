@@ -9,6 +9,8 @@ bp_dir=$(cd "$(dirname "$BASH_SOURCE")"; cd ..; pwd)
 source "$bp_dir/lib/utils/env.sh"
 # shellcheck source=/dev/null
 source "$bp_dir/lib/utils/json.sh"
+# shellcheck source=/dev/null
+source "$bp_dir/lib/utils/log.sh"
 
 detect_package_lock() {
   local build_dir=$1
@@ -39,14 +41,14 @@ install_or_reuse_npm() {
   engine_npm=$(json_get_key "$build_dir/package.json" ".engines.npm")
 
   if [[ "$npm_version" == "$engine_npm" ]]; then
-    echo "---> Using npm v${npm_version}"
+    log_info "Using npm v${npm_version}"
   else
     latest_npm_version=$(npm view npm@"$engine_npm" version | tail -n 1 | cut -d "'" -f2)
 
     if [[ "$npm_version" == "$latest_npm_version" ]]; then
-      echo "---> Using npm v${npm_version}"
+      log_info "Using npm v${npm_version}"
     else
-      echo "---> Installing npm v${engine_npm}"
+      log_info "Installing npm v${engine_npm}"
       npm install -g "npm@${engine_npm}" --prefix "$layer_dir" --quiet
 
       cat << TOML > "${layer_dir}.toml"
@@ -74,14 +76,14 @@ install_modules() {
   local layer_dir=$2
 
   if detect_package_lock "$build_dir" ; then
-    echo "---> Installing node modules from ./package-lock.json"
+    log_info "Installing node modules from ./package-lock.json"
     if use_npm_ci ; then
       npm ci
     else
       npm install
     fi
   else
-    echo "---> Installing node modules"
+    log_info "Installing node modules"
     npm install --no-package-lock
   fi
 }
@@ -104,7 +106,7 @@ install_or_reuse_node_modules() {
   cached_lock_checksum=$(yj -t < "${layer_dir}.toml" | jq -r ".metadata.package_lock_checksum")
 
   if [[ "$local_lock_checksum" == "$cached_lock_checksum" ]] ; then
-      echo "---> Reusing node modules"
+      log_info "Reusing node modules"
       cp -r "$layer_dir" "$build_dir/node_modules"
   else
     echo "cache = true" > "${layer_dir}.toml"
