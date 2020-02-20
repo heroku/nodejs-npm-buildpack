@@ -105,6 +105,12 @@ An example of this command running from the source code directory with a local b
 pack build TEST_IMAGE_NAME --builder nodejs --network host
 ```
 
+If building a function with `sfdx`, a command looks like this:
+
+```sh
+sfdx evergreen:functions:build image-repo/myfunction:dev --network host
+```
+
 ## Contributing
 
 1. Open a pull request.
