@@ -93,6 +93,24 @@ Now you can use the builder image instead of chaining the buildpacks.
 pack build TEST_IMAGE_NAME --path ../TEST_REPO_PATH --builder nodejs
 ```
 
+### Common Issues
+
+#### `jq: Permission denied` on a build
+
+This issue may happen if a binary that is installed is not executable. This may happen on a Linux machine or while using a private network, such as a VPN, when using a local buildpack tool. If using `sfdx evergreen` or `pack`, pass in `--network host` to the command.
+
+An example of this command running from the source code directory with a local builder image called `nodejs` would look like this:
+
+```sh
+pack build TEST_IMAGE_NAME --builder nodejs --network host
+```
+
+If building a function with `sfdx`, a command looks like this:
+
+```sh
+sfdx evergreen:functions:build image-repo/myfunction:dev --network host
+```
+
 ## Contributing
 
 1. Open a pull request.
