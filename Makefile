@@ -10,6 +10,13 @@ VERSION := "v$$(cat buildpack.toml | grep version | sed -e 's/version = //g' | x
 
 test:
 	make shellcheck
+	make docker-unit-test
+
+docker-unit-test:
+	@docker run -v $(PWD):/project danielleadams/shpec:latest
+
+unit-test:
+	shpec ./shpec/*_shpec.sh
 
 clean:
 	-rm -f nodejs-npm-buildpack-$(VERSION).tgz

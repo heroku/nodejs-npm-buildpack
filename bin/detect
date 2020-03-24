@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -e
+set -o pipefail
 
 bp_dir=$(cd "$(dirname "$0")"/..; pwd)
 build_dir=$(pwd)
