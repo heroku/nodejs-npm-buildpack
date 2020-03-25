@@ -71,17 +71,17 @@ For local development, you'll want the file to look like this:
 
 ```toml
 [[buildpacks]]
-  id = "heroku/nodejs-engine-buildpack"
+  id = "heroku/nodejs-engine"
   uri = "../nodejs-engine-buildpack"
 
 [[buildpacks]]
-  id = "heroku/nodejs-npm-buildpack"
+  id = "heroku/nodejs-npm"
   uri = "../nodejs-npm-buildpack"
 
 [[order]]
   group = [
-    { id = "heroku/nodejs-engine-buildpack", version = "0.0.1" },
-    { id = "heroku/nodejs-npm-buildpack", version = "0.0.1" }
+    { id = "heroku/nodejs-engine", version = "0.4.3" },
+    { id = "heroku/nodejs-npm", version = "0.1.4" }
   ]
 
 [stack]
