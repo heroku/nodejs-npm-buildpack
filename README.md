@@ -20,6 +20,15 @@ brew install pack
 
 If you're using Windows or Linux, follow instructions [here](https://buildpacks.io/docs/install-pack/).
 
+### Install shpec (optional)
+
+This buildpack uses `shpec` for unit tests, so to run them locally, you'll need to install the package.
+
+```sh
+curl -sLo- http://get.bpkg.sh | bash
+bpkg install rylnd/shpec
+```
+
 ### Clone the buildpack
 
 Right now, we are prototyping with a local version of the buildpack. Clone it to your machine.
@@ -62,17 +71,17 @@ For local development, you'll want the file to look like this:
 
 ```toml
 [[buildpacks]]
-  id = "heroku/nodejs-engine-buildpack"
+  id = "heroku/nodejs-engine"
   uri = "../nodejs-engine-buildpack"
 
 [[buildpacks]]
-  id = "heroku/nodejs-npm-buildpack"
+  id = "heroku/nodejs-npm"
   uri = "../nodejs-npm-buildpack"
 
 [[order]]
   group = [
-    { id = "heroku/nodejs-engine-buildpack", version = "0.0.1" },
-    { id = "heroku/nodejs-npm-buildpack", version = "0.0.1" }
+    { id = "heroku/nodejs-engine", version = "0.4.3" },
+    { id = "heroku/nodejs-npm", version = "0.1.4" }
   ]
 
 [stack]
@@ -109,6 +118,48 @@ If building a function with `sfdx`, a command looks like this:
 
 ```sh
 sfdx evergreen:functions:build image-repo/myfunction:dev --network host
+```
+
+## Testing
+
+The complete test suite needs Docker to run. Make sure to [install Docker first](https://hub.docker.com/search?type=edition&offering=community).
+
+```sh
+make test
+```
+
+If you want to run individual test suites, that's available too.
+
+**Unit Tests**
+
+To run the tests on the local host, [make sure `shpec` is installed](#install-shpec-optional).
+
+```sh
+make unit-test
+```
+
+### Unit tests in Docker
+
+Running the `shpec` aren't ideal since the test scripts read and write to the local buildpack directory, so Docker may be preferred.
+
+As suggested above, install [Docker](#testing). Next, run the tests with the Make script:
+
+```sh
+make docker-unit-test
+```
+
+### Debugging tests
+
+To debug, make changes from the code and rerun with the make command. To see what is happening, I suggest wrapping code blocks in question with `set -x`/`set +x`. It would look like this in the shpec file:
+
+```sh
+set -x
+it "creates a toolbox.toml"
+  install_or_reuse_toolbox "$layers_dir/toolbox"
+
+  assert file_present "$layers_dir/toolbox.toml"
+end
+set +x
 ```
 
 ## Contributing
