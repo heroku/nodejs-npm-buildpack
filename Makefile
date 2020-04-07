@@ -30,4 +30,4 @@ release:
 
 shellcheck:
 	@shellcheck -x bin/build bin/detect
-	@shellcheck -x lib/*.sh lib/utils/*.sh
+	@shellcheck -x lib/*.sh lib/utils/*.sh shpec/*.sh
