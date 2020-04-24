@@ -116,7 +116,8 @@ install_or_reuse_node_modules() {
 
   if [[ "$local_lock_checksum" == "$cached_lock_checksum" ]] ; then
       log_info "Reusing node modules"
-      cp -r "$layer_dir" "$build_dir/node_modules"
+      mkdir -p "$build_dir/node_modules"
+      cp -r "$layer_dir/" "$build_dir/"
   else
     echo "cache = true" > "${layer_dir}.toml"
 
