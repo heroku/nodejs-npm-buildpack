@@ -10,7 +10,7 @@ platform_dir=$2
 
 # shellcheck source=/dev/null
 source "$bp_dir/lib/build.sh"
-rm -rf "$build_dir/node_modules"
+rm -rf "$build_dir/node_modules/*"
 
 export_env "$platform_dir/env" "" ""
 
