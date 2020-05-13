@@ -1,14 +1,10 @@
 sudo: required
 services:
-- docker
-before_install:
-- curl -sLo- http://get.bpkg.sh | sudo bash
-before_script:
-- sudo bpkg install rylnd/shpec
+  - docker
 script:
-- make test
-- make package
-- ls -alh nodejs-npm-buildpack-*.tgz
+  - make test
+  - make package
+  - ls -alh nodejs-npm-buildpack-*.tgz
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
