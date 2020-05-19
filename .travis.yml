@@ -1,10 +1,10 @@
 sudo: required
 services:
-- docker
+  - docker
 script:
-- make test
-- make package
-- ls -alh nodejs-npm-buildpack-*.tgz
+  - make test
+  - make package
+  - ls -alh nodejs-npm-buildpack-*.tgz
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
