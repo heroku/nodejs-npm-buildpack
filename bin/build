@@ -24,3 +24,5 @@ install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
 run_build "$build_dir"
 
 write_launch_toml "$build_dir/package.json" "$layers_dir/launch.toml"
+
+prune_devdependencies "$build_dir"

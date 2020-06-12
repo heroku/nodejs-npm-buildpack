@@ -162,3 +162,13 @@ TOML
   fi
 
 }
+
+prune_devdependencies() {
+  local build_dir=$1
+  local npm_version
+
+  npm_version=$(npm -v)
+
+  npm prune --userconfig "$build_dir/.npmrc" 2>&1
+  log_info "Successfully pruned devdependencies!"
+}
