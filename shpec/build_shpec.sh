@@ -251,6 +251,16 @@ describe "lib/build.sh"
     rm_temp_dirs "$project_dir" "$layers_dir"
   end
 
+  describe "prune_devdependencies"
+    project_dir=$(create_temp_project_dir)
+    use_npm 6
+
+    it "successfully prunes devdependencies"
+      prune_devdependencies "$project_dir"
+      assert equal $? 0
+    end
+  end
+
   rm_tools_and_mocks
   unstub_command "log_info"
 end
