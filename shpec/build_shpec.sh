@@ -255,10 +255,24 @@ describe "lib/build.sh"
     project_dir=$(create_temp_project_dir)
     use_npm 6
 
+    it "skips pruning when NODE_ENV is not 'production'"
+      export NODE_ENV=not-production
+      result=$(prune_devdependencies "$project_dir")
+      assert equal "$result" "pruning skipped"
+    end
+
+    it "successfully prunes when NODE_ENV is 'production'"
+      export NODE_ENV=production
+      result=$(prune_devdependencies "$project_dir")
+      assert equal "$result" "pruning successful"
+    end
+
     it "successfully prunes devdependencies"
       prune_devdependencies "$project_dir"
       assert equal $? 0
     end
+
+    rm_temp_dirs "$project_dir"
   end
 
   rm_tools_and_mocks
