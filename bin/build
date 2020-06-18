@@ -17,6 +17,8 @@ export_env "$platform_dir/env" "" ""
 export PATH=$layers_dir/npm/bin:$PATH
 install_or_reuse_npm "$build_dir" "$layers_dir/npm"
 
+warn_prebuilt_modules "$build_dir"
+
 run_prebuild "$build_dir"
 
 install_or_reuse_node_modules "$build_dir" "$layers_dir/node_modules"
