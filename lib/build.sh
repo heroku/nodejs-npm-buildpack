@@ -176,6 +176,6 @@ prune_devdependencies() {
 warn_prebuilt_modules() {
   local build_dir=$1
   if [ -e "$build_dir/node_modules" ]; then
-    log_info "node_modules checked into source control" "https://blog.heroku.com/node-habits-2016#9-only-git-the-important-bits"
+    log_info "node_modules checked into source control" "https://devcenter.heroku.com/articles/node-best-practices#only-git-the-important-bits"
   fi
 }
