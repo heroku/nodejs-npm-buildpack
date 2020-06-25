@@ -261,6 +261,18 @@ describe "lib/build.sh"
     end
   end
 
+  describe "warn_prebuilt_modules"
+    project_dir=$(create_temp_project_dir)
+
+    it "warns when node modules are checked into git"
+      mkdir -p "$project_dir/node_modules"
+      warn_prebuilt_modules "$project_dir"
+      assert equal $? 0
+    end
+    
+    rm_temp_dirs "$project_dir"
+  end
+
   rm_tools_and_mocks
   unstub_command "log_info"
 end

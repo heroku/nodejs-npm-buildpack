@@ -172,3 +172,10 @@ prune_devdependencies() {
   npm prune --userconfig "$build_dir/.npmrc" 2>&1
   log_info "Successfully pruned devdependencies!"
 }
+
+warn_prebuilt_modules() {
+  local build_dir=$1
+  if [ -e "$build_dir/node_modules" ]; then
+    log_info "node_modules checked into source control" "https://devcenter.heroku.com/articles/node-best-practices#only-git-the-important-bits"
+  fi
+}
