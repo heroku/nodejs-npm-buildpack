@@ -51,9 +51,34 @@ use_npm() {
 
 describe "lib/build.sh"
   install_tools
-  stub_command "log_info"
 
   CURRENT_PATH=$PATH
+
+  describe "prune_devdependencies"
+    project_dir=$(create_temp_project_dir)
+    use_npm 6
+
+    it "skips pruning when NODE_ENV is not 'production'"
+      export NODE_ENV=not-production
+      result=$(prune_devdependencies "$project_dir")
+      assert equal "$result" "---> Skip pruning because NODE_ENV is not 'production'."
+    end
+
+    it "successfully prunes when NODE_ENV is 'production'"
+      export NODE_ENV=production
+      result=$(prune_devdependencies "$project_dir")
+      assert equal "$result" "---> Successfully pruned devdependencies!"
+    end
+
+    it "successfully prunes devdependencies"
+      prune_devdependencies "$project_dir"
+      assert equal $? 0
+    end
+
+    rm_temp_dirs "$project_dir"
+  end
+
+  stub_command "log_info"
 
   describe "detect_package_lock"
     project_dir=$(create_temp_project_dir)
@@ -251,30 +276,6 @@ describe "lib/build.sh"
     rm_temp_dirs "$project_dir" "$layers_dir"
   end
 
-  describe "prune_devdependencies"
-    project_dir=$(create_temp_project_dir)
-    use_npm 6
-
-    it "skips pruning when NODE_ENV is not 'production'"
-      export NODE_ENV=not-production
-      result=$(prune_devdependencies "$project_dir")
-      assert equal "$result" "pruning skipped"
-    end
-
-    it "successfully prunes when NODE_ENV is 'production'"
-      export NODE_ENV=production
-      result=$(prune_devdependencies "$project_dir")
-      assert equal "$result" "pruning successful"
-    end
-
-    it "successfully prunes devdependencies"
-      prune_devdependencies "$project_dir"
-      assert equal $? 0
-    end
-
-    rm_temp_dirs "$project_dir"
-  end
-
-  rm_tools_and_mocks
   unstub_command "log_info"
+  rm_tools_and_mocks
 end
