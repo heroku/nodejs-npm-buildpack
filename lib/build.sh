@@ -169,8 +169,12 @@ prune_devdependencies() {
 
   npm_version=$(npm -v)
 
-  npm prune --userconfig "$build_dir/.npmrc" 2>&1
-  log_info "Successfully pruned devdependencies!"
+  if [ "$NODE_ENV" != "production" ]; then
+    log_info "Skip pruning because NODE_ENV is not 'production'."
+  else
+    npm prune --userconfig "$build_dir/.npmrc" 2>&1
+    log_info "Successfully pruned devdependencies!"
+  fi
 }
 
 warn_prebuilt_modules() {
