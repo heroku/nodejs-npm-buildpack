@@ -26,7 +26,7 @@ package: clean
 
 release:
 	@git tag $(VERSION)
-	@git push --tags origin master
+	@git push --tags origin main
 
 shellcheck:
 	@shellcheck -x bin/build bin/detect
