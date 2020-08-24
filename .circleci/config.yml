@@ -18,8 +18,8 @@ jobs:
           name: "Build OCI image with NPM and TypeScript buildpacks"
           command:
             pack build circle-build-1
+              --buildpack heroku/nodejs-engine
               --buildpack .
-              --buildpack heroku/nodejs-npm
               --buildpack heroku/nodejs-typescript
               --path ./typescript-getting-started
       - run:
@@ -53,3 +53,5 @@ workflows:
           name: "Unit tests for heroku-16"
           stack: "heroku-16"
       - shellcheck/check
+      - integration-test-nodejs-buildpacks:
+          name: "Integration tests with Heroku Node.js buildpacks"
