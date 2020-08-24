@@ -39,16 +39,6 @@ jobs:
       - run:
           name: Shpec unit tests on <<parameters.stack>>
           command: make unit-test
-  unit-test-binary:
-    docker:
-      - image: circleci/golang:1.14
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Run unit tests for Go
-          command: go test ./... -tags=integration
 workflows:
   version: 2
   run-tests:
@@ -62,6 +52,4 @@ workflows:
       - unit-test-heroku-stack:
           name: "Unit tests for heroku-16"
           stack: "heroku-16"
-      - unit-test-binary:
-          name: "Unit tests for Go binaries"
       - shellcheck/check
