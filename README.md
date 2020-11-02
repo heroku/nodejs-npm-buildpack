@@ -93,7 +93,7 @@ For local development, you'll want the file to look like this:
 Create the builder with `pack`:
 
 ```sh
-pack create-builder nodejs --builder-config ../heroku-nodejs-builder/builder.toml
+pack create-builder nodejs --config ../heroku-nodejs-builder/builder.toml
 ```
 
 Now you can use the builder image instead of chaining the buildpacks.
