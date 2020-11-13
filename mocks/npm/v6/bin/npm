@@ -17,6 +17,13 @@ elif [[ "$1" == "install" ]]; then
     if [[ "$2" != "--no-package-lock" ]]; then
       touch package-lock.json
     fi
+  else
+    if [[ "$4" == "--prefix" ]]; then
+      if [[ ! -d "$(npm root -g --prefix "$5")" ]]; then
+        echo "npm prefix directory doesn't exist!"
+        exit 1
+      fi
+    fi
   fi
 elif [[ "$1" == "ci" ]]; then
   mkdir -p node_modules
@@ -25,5 +32,11 @@ elif [[ "$1" == "run" ]]; then
     mkdir -p heroku-postbuild
   elif [[ "$2" == "build" ]]; then
     mkdir -p build
+  fi
+elif [[ "$1" == "root" ]]; then
+  if [[ "$2" == "-g" ]]; then
+    if [[ "$3" == "--prefix" ]]; then
+      echo "$4" "/lib/node_modules"
+    fi
   fi
 fi

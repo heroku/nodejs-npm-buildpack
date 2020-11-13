@@ -58,7 +58,7 @@ install_or_reuse_npm() {
       log_info "Using npm v${npm_version} from package.json"
     else
       log_info "Installing npm v${engine_npm} from package.json"
-      mkdir -p $(npm root -g --prefix "$layer_dir")
+      mkdir -p "$(npm root -g --prefix "$layer_dir")"
       npm install -g "npm@${engine_npm}" --prefix "$layer_dir" --quiet
 
       cat << TOML > "${layer_dir}.toml"
