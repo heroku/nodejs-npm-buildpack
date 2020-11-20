@@ -36,7 +36,7 @@ elif [[ "$1" == "run" ]]; then
 elif [[ "$1" == "root" ]]; then
   if [[ "$2" == "-g" ]]; then
     if [[ "$3" == "--prefix" ]]; then
-      echo "$4" "/lib/node_modules"
+      echo "$4""/lib/node_modules"
     fi
   fi
 fi
