@@ -4,6 +4,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## main
 - Ensure prefix directory exists ([#42](https://github.com/heroku/nodejs-npm-buildpack/pull/44))
+- Use new logging style ([#45](https://github.com/heroku/nodejs-npm-buildpack/pull/45))
 
 ## 0.4.0 (2020-11-11)
 ### Added
