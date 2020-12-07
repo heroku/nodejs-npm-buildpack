@@ -155,6 +155,7 @@ describe "lib/build.sh"
         it "uses the version installed with Node"
           install_or_reuse_npm "$project_dir" "$layers_dir/npm"
 
+          assert file_absent "$(npm root -g --prefix "$layers_dir/npm")"
           assert file_absent "$layers_dir/npm.toml"
         end
       end
@@ -165,6 +166,7 @@ describe "lib/build.sh"
         it "uses the version installed with Node"
           install_or_reuse_npm "$project_dir" "$layers_dir/npm"
 
+          assert file_absent "$(npm root -g --prefix "$layers_dir/npm")"
           assert file_absent "$layers_dir/npm.toml"
         end
       end
@@ -175,6 +177,7 @@ describe "lib/build.sh"
         it "installs the engine version of npm"
           install_or_reuse_npm "$project_dir" "$layers_dir/npm"
 
+          assert file_present "$(npm root -g --prefix "$layers_dir/npm")"
           assert file_present "$layers_dir/npm.toml"
         end
       end
