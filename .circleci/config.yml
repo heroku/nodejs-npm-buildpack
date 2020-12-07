@@ -28,7 +28,8 @@ jobs:
               --path ./typescript-getting-started
       - run:
           name: "Test image"
-          command: docker run circle-build-1 "node -v"
+          command: |
+            if [[ $(docker run --entrypoint "/bin/bash" circle-build-1 -c "ls /cnb/process | grep web") != "web" ]]; then { echo "Must have web process created"; exit 1; }; fi
   unit-test-heroku-stack:
     parameters:
       stack:
