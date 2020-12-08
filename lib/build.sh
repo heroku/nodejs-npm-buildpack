@@ -42,22 +42,22 @@ install_or_reuse_npm() {
 
   # if no engine version specified
   if [[ -z "$engine_npm" ]]; then
-    log_info "Using npm v${npm_version} from Node"
+    info "Using npm v${npm_version} from Node"
     return 0
   fi
 
   # if engine version equals the installed version
   # from either Node or the cache
   if [[ "$engine_npm" == "$npm_version" ]]; then
-    log_info "Using npm v${npm_version} from package.json"
+    info "Using npm v${npm_version} from package.json"
   else
     latest_npm_version=$(npm view npm@"$engine_npm" version | tail -n 1 | cut -d "'" -f2)
 
     # if installed version is the latest version
     if [[ "$npm_version" == "$latest_npm_version" ]]; then
-      log_info "Using npm v${npm_version} from package.json"
+      info "Using npm v${npm_version} from package.json"
     else
-      log_info "Installing npm v${engine_npm} from package.json"
+      info "Installing npm v${engine_npm} from package.json"
       mkdir -p "$(npm root -g --prefix "$layer_dir")"
       npm install -g "npm@${engine_npm}" --prefix "$layer_dir" --quiet
 
@@ -86,14 +86,14 @@ install_modules() {
   local layer_dir=$2
 
   if detect_package_lock "$build_dir" ; then
-    log_info "Installing node modules from ./package-lock.json"
+    info "Installing node modules from ./package-lock.json"
     if use_npm_ci ; then
       npm ci
     else
       npm install
     fi
   else
-    log_info "Installing node modules"
+    info "Installing node modules"
     npm install --no-package-lock
   fi
 }
@@ -116,7 +116,7 @@ install_or_reuse_node_modules() {
   cached_lock_checksum=$(yj -t < "${layer_dir}.toml" | jq -r ".metadata.package_lock_checksum")
 
   if [[ "$local_lock_checksum" == "$cached_lock_checksum" ]] ; then
-      log_info "Reusing node modules"
+      info "Reusing node modules"
       cp -r "$layer_dir" "$build_dir/node_modules"
   else
     echo "cache = true" > "${layer_dir}.toml"
@@ -171,16 +171,16 @@ prune_devdependencies() {
   npm_version=$(npm -v)
 
   if [ "$NODE_ENV" != "production" ]; then
-    log_warning "Skip pruning because NODE_ENV is not 'production'."
+    warning "Skip pruning because NODE_ENV is not 'production'."
   else
     npm prune --userconfig "$build_dir/.npmrc" 2>&1
-    log_info "Successfully pruned devdependencies!"
+    info "Successfully pruned devdependencies!"
   fi
 }
 
 warn_prebuilt_modules() {
   local build_dir=$1
   if [ -e "$build_dir/node_modules" ]; then
-    log_info "node_modules checked into source control" "https://devcenter.heroku.com/articles/node-best-practices#only-git-the-important-bits"
+    info "node_modules checked into source control" "https://devcenter.heroku.com/articles/node-best-practices#only-git-the-important-bits"
   fi
 }

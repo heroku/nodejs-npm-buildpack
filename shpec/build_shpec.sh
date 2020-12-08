@@ -61,13 +61,13 @@ describe "lib/build.sh"
     it "skips pruning when NODE_ENV is not 'production'"
       export NODE_ENV=not-production
       result=$(prune_devdependencies "$project_dir")
-      assert equal "$result" "---> WARNING Skip pruning because NODE_ENV is not 'production'."
+      assert equal "$result" "$(warning "Skip pruning because NODE_ENV is not 'production'.")"
     end
 
     it "successfully prunes when NODE_ENV is 'production'"
       export NODE_ENV=production
       result=$(prune_devdependencies "$project_dir")
-      assert equal "$result" "---> Successfully pruned devdependencies!"
+      assert equal "$result" "[INFO] Successfully pruned devdependencies!"
     end
 
     it "successfully prunes devdependencies"
